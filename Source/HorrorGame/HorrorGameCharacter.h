@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GenericTeamAgentInterface.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "HorrorGameCharacter.generated.h"
 
 
 UCLASS(config=Game)
-class AHorrorGameCharacter : public ACharacter
+class AHorrorGameCharacter : public ACharacter, public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
 
@@ -39,7 +40,6 @@ class AHorrorGameCharacter : public ACharacter
 
 public:
 	AHorrorGameCharacter();
-	
 
 protected:
 
@@ -48,7 +48,7 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
-			
+	FGenericTeamId TeamId;
 
 protected:
 	// APawn interface
@@ -62,5 +62,7 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	virtual FGenericTeamId GetGenericTeamId() const override { return TeamId; }
 };
 
